@@ -1,22 +1,23 @@
 package ds.npt.stack;
 
 public class Stack {
-
-    int stack[] = new int[5];
+    int maxsize = 2;
+    int stack[] = new int[maxsize];
     int top = 0;
 
     /**
      * Insert value at top of stack.
      */
     public void push(int data) {
-
-        if (top == 5) {
-            System.out.println("Stack is full!");
-        } else {
-            stack[top] = data;
-            top++;
+        if (size() == maxsize) {
+            //Expand size of array.
+            expand();
         }
+        stack[top] = data;
+        top++;
     }
+
+
 
     /**
      * Remove value at top of stack.
@@ -29,9 +30,14 @@ public class Stack {
             top--;
             data = stack[top];
             stack[top] = 0;
+
+            //Reduce size of array by shrink.
+            shrink();
         }
         return data;
     }
+
+
 
     /**
      * Get value at the top of stack.
@@ -61,7 +67,31 @@ public class Stack {
      */
     public void show() {
         for (int number : stack) {
-            System.out.println("| " + number + " |");
+            System.out.print(number);
+        }
+        System.out.print("\n");
+    }
+
+
+
+    private void expand() {
+        int length = size();
+        //Create new array with double size.
+        int newStack[] = new int[maxsize*2];
+
+        //Copy all element from stack array to newStack array.
+        System.arraycopy(stack, 0, newStack, 0, length);
+        stack = newStack;
+        maxsize *= 2;
+    }
+
+    private void shrink() {
+        int length = size();
+        if (length <= (maxsize/2)/2) {
+            maxsize = maxsize/2;
+            int newStack[] = new int[maxsize];
+            System.arraycopy(stack, 0, newStack, 0, length);
+            stack = newStack;
         }
     }
 }
