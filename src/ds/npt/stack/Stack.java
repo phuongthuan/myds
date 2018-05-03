@@ -9,18 +9,27 @@ public class Stack {
      * Insert value at top of stack.
      */
     public void push(int data) {
-        stack[top] = data;
-        top++;
+
+        if (top == 5) {
+            System.out.println("Stack is full!");
+        } else {
+            stack[top] = data;
+            top++;
+        }
     }
 
     /**
      * Remove value at top of stack.
      */
     public int pop() {
-        int data;
-        top--;
-        data = stack[top];
-        stack[top] = 0;
+        int data = 0;
+        if (isEmpty()) {
+            System.out.println("Stack is empty!");
+        } else {
+            top--;
+            data = stack[top];
+            stack[top] = 0;
+        }
         return data;
     }
 
@@ -31,6 +40,20 @@ public class Stack {
         int data;
         data = stack[top-1];
         return data;
+    }
+
+    /**
+     * Get size of stack.
+     */
+    public int size() {
+        return top;
+    }
+
+    /**
+     * Check stack is empty.
+     */
+    public boolean isEmpty() {
+        return top <= 0;
     }
 
     /**
