@@ -22,17 +22,17 @@ public class Runner {
         /**
          * Print all node in BST.
          */
-        tree.getBinaryTreeData();
+        tree.traversalByPreOrder();
 
-        boolean searchResult = tree.search(90);
-        if (searchResult) {
-            System.out.println("Found");
-        } else {
-            System.out.println("Not Found");
-        }
+//        if (tree.search(90)) {
+//            System.out.println("Found");
+//        } else {
+//            System.out.println("Not Found");
+//        }
 
-        System.out.println(tree.findMinUsingInterator());
+//        System.out.println(tree.findMinUsingInterator());
+//        System.out.println(tree.findMinRec());
 
-        System.out.println(tree.findMinRec());
+//        System.out.println(tree.findHeightBST());
     }
 }

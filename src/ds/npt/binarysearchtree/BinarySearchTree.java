@@ -1,5 +1,8 @@
 package ds.npt.binarysearchtree;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BinarySearchTree {
 
     /**
@@ -39,23 +42,81 @@ public class BinarySearchTree {
         return root;
     }
 
+    // DEPTH FIRST.
+    //=======================================
+
+    public void traversalByLevelOrder() {
+        levelOrder(root);
+    }
+
+    public void traversalByInOrder() {
+        inOrder(root);
+    }
+
+    public void traversalByPreOrder() {
+        preOrder(root);
+    }
+
+    public void traversalByPostOrder() {
+        postOrder(root);
+    }
+
+    //=======================================
+
     /**
-     * Display all data of tree.
+     * Traversal of BST by in-order approach.
+     * Left => Root => Right
      */
-    public void getBinaryTreeData() {
-        displayRec(root);
+    private void inOrder(BSTNode root) {
+        if (root == null) return;
+        inOrder(root.left);
+        System.out.println(root.data);
+        inOrder(root.right);
     }
 
     /**
-     * Traversal of BST
+     * Traversal of BST by pre-order approach.
+     * Root => Left => Right
      */
-    private void displayRec(BSTNode root) {
-        if (root != null) {
-            displayRec(root.left);
-            System.out.println(root.data);
-            displayRec(root.right);
+    private void preOrder(BSTNode root) {
+        if (root == null) return;
+        System.out.println(root.data);
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+
+
+    /**
+     * Traversal of BST by post-order approach.
+     * Left => Right => Root
+     */
+    private void postOrder(BSTNode root) {
+        if (root == null) return;
+        postOrder(root.left);
+        postOrder(root.right);
+        System.out.println(root.data);
+    }
+
+
+    // LEVEL ORDER TRAVERSAL.
+    //=====================================================
+
+    private void levelOrder(BSTNode root) {
+        if (root == null) {
+            return;
+        }
+        Queue<BSTNode> q = new LinkedList<>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            BSTNode current = q.peek();
+            System.out.println(current.data + " ");
+            if (current.left != null) q.add(current.left);
+            if (current.right != null) q.add(current.right);
+            q.poll();
         }
     }
+    //======================================================
 
     public boolean search(int data) {
         return searchRec(root, data);
@@ -105,5 +166,22 @@ public class BinarySearchTree {
     }
 
 
+    public int findHeightBST() {
+        return findHeight(root);
+    }
+
+    private int findHeight(BSTNode root) {
+        if (root == null) {
+            return -1;
+        }
+        return max(findHeight(root.left), findHeight(root.right)) + 1;
+    }
+
+    private int max(int a, int b) {
+        if (a >= b) {
+            return a;
+        }
+        return b;
+    }
 
 }
