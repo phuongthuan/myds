@@ -23,7 +23,7 @@ public class Runner {
          * Print all node in BST.
          */
         tree.traversalByPreOrder();
-
+        System.out.println(tree.checkIsBST());
 //        if (tree.search(90)) {
 //            System.out.println("Found");
 //        } else {
