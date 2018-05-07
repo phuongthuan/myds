@@ -8,7 +8,7 @@ public class BinarySearchTree {
     /**
      * Root of BST.
      */
-    BSTNode root;
+    private BSTNode root;
 
     /**
      * Constructor.
@@ -22,6 +22,13 @@ public class BinarySearchTree {
      */
     public void insert(int data) {
         root = insertRecursive(root, data);
+    }
+
+    /**
+     * Check is giving Binary Tree is BST.
+     */
+    public boolean checkIsBST() {
+        return isBinarySearchTree(root);
     }
 
     /**
@@ -171,17 +178,48 @@ public class BinarySearchTree {
     }
 
     private int findHeight(BSTNode root) {
-        if (root == null) {
+        if (root == null)
             return -1;
-        }
         return max(findHeight(root.left), findHeight(root.right)) + 1;
     }
 
     private int max(int a, int b) {
-        if (a >= b) {
+        if (a >= b)
             return a;
-        }
         return b;
     }
 
+
+    // Check If given a Binary tree is BST?
+    //==========================================================
+    private boolean isSubtreeLesser(BSTNode root, int value) {
+        if (root ==null) return true;
+        if (root.data <= value
+                && isSubtreeLesser(root.left, value)
+                && isSubtreeLesser(root.right, value))
+            return true;
+        else
+            return false;
+    }
+
+    private boolean isSubtreeGreater(BSTNode root, int value) {
+        if (root == null) return true;
+        if (root.data > value
+                && isSubtreeGreater(root.left, value)
+                && isSubtreeGreater(root.right, value))
+            return true;
+        else
+            return false;
+    }
+
+    private boolean isBinarySearchTree(BSTNode root) {
+        if (root == null) return true;
+        if (isSubtreeLesser(root.left, root.data)
+            && isSubtreeGreater(root.right, root.data)
+            && isBinarySearchTree(root.left)
+            && isBinarySearchTree(root.right))
+            return true;
+        else
+            return false;
+    }
 }
