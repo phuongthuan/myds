@@ -73,4 +73,37 @@ public class BinarySearchTree {
         }
     }
 
+    /**
+     * Finding a min value in Tree using iterator.
+     */
+    public int findMinUsingInterator() {
+        if (root == null) {
+            System.out.println("Error: Tree is empty!");
+            return -1;
+        }
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root.data;
+    }
+
+
+    public int findMinRec() {
+        return findMinUsingRecursion(root);
+    }
+
+    private int findMinUsingRecursion(BSTNode root) {
+        if (root == null) {
+            System.out.println("Erorr: Tree is empty!");
+            return -1;
+        } else if (root.left == null) {
+            return root.data;
+        }
+
+        //Search in left subtree.
+        return findMinUsingRecursion(root.left);
+    }
+
+
+
 }

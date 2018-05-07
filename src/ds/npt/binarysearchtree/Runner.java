@@ -30,5 +30,9 @@ public class Runner {
         } else {
             System.out.println("Not Found");
         }
+
+        System.out.println(tree.findMinUsingInterator());
+
+        System.out.println(tree.findMinRec());
     }
 }
