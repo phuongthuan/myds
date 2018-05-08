@@ -23,20 +23,23 @@ public class Runner {
         tree.insert(70);
         tree.insert(60);
         tree.insert(80);
-        tree.insert(100);
         tree.insert(90);
+        tree.insert(100);
         tree.insert(110);
+
 
         /**
          * Print all node in BST.
          */
         tree.traversalByInOrder();
 
-        tree.delete(70);
-
-        System.out.println("====");
-
-        tree.traversalByInOrder();
+        BSTNode successor = tree.getSuccessor(60);
+        if (successor == null) {
+            System.out.println("No successor!");
+        } else {
+            System.out.println("Successor is: " + successor.data);
+        }
+//        tree.delete(70);
 
 //        if (tree.search(90)) {
 //            System.out.println("Found");
