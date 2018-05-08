@@ -18,17 +18,24 @@ public class BinarySearchTree {
     }
 
     /**
-     * Insert data to node.
+     * Insert node to BST.
      */
     public void insert(int data) {
         root = insertRecursive(root, data);
     }
 
     /**
-     * Delete node.
+     * Delete node from BST.
      */
     public void delete(int data) {
         root = deleteNode(root, data);
+    }
+
+    /**
+     * Get In-order Successor by giving data and root.
+     */
+    public BSTNode getSuccessor(int data) {
+        return getInOrderSuccessor(root, data);
     }
 
     /**
@@ -39,6 +46,42 @@ public class BinarySearchTree {
     }
 
     /**
+     * Find minimum data in BST.
+     */
+    public int findMinRec() {
+        return findMinUsingRecursion(root);
+    }
+
+    public int findHeightBST() {
+        return findHeight(root);
+    }
+
+
+    // DEPTH FIRST.
+    //=======================================
+
+    public void traversalByLevelOrder() {
+        levelOrder(root);
+    }
+
+    public void traversalByInOrder() {
+        inOrder(root);
+    }
+
+    public void traversalByPreOrder() {
+        preOrder(root);
+    }
+
+    public void traversalByPostOrder() {
+        postOrder(root);
+    }
+
+    //=======================================
+
+
+
+
+    /**
      * Recursive function to insert a new data to BST.
      */
     private BSTNode insertRecursive(BSTNode root, int data) {
@@ -46,16 +89,13 @@ public class BinarySearchTree {
             root = new BSTNode(data);
             return root;
         }
-
         if (data <= root.data) {
             root.left = insertRecursive(root.left, data);
         } else if (data > root.data) {
             root.right = insertRecursive(root.right, data);
         }
-
         return root;
     }
-
 
     /**
      * Delete a node in BST.
@@ -90,32 +130,53 @@ public class BinarySearchTree {
     }
 
     private BSTNode findMin(BSTNode root) {
+        if (root == null) return null;
         while (root.left != null) {
             root = root.left;
         }
         return root;
     }
 
-    // DEPTH FIRST.
-    //=======================================
+    /**
+     * Find in-order(LDR) successor by giving data.
+     *
+     * Successor is the node that would come immediately after
+     * the given node in in-order traversal of the BST.
+     */
+    private BSTNode getInOrderSuccessor(BSTNode root, int data) {
+        //Search the node O(h) - h is height of the BST.
+        BSTNode cur = find(root, data);
+        if (cur == null) return null;
 
-    public void traversalByLevelOrder() {
-        levelOrder(root);
+        //Case 1: If cur node has right subtree.
+        if (cur.right != null) {
+            return findMin(cur.right); //Tc: O(h)
+        }
+        //Case 2: If cur node hasn't right subtree.
+        else {
+            BSTNode successor = null;
+            BSTNode ancestor = root;
+            while (ancestor != cur) {
+                if (cur.data < ancestor.data) {
+                    successor = ancestor;
+                    ancestor = ancestor.left;
+                } else {
+                    ancestor = ancestor.right;
+                }
+            }
+            return successor;
+        }
     }
 
-    public void traversalByInOrder() {
-        inOrder(root);
+    /**
+     * Find data in BST.
+     */
+    private BSTNode find(BSTNode root, int data) {
+        if (root == null) return null;
+        else if (data == root.data) return root;
+        else if (data < root.data) return find(root.left, data);
+        else return find(root.right, data);
     }
-
-    public void traversalByPreOrder() {
-        preOrder(root);
-    }
-
-    public void traversalByPostOrder() {
-        postOrder(root);
-    }
-
-    //=======================================
 
     /**
      * Traversal of BST by in-order approach.
@@ -139,7 +200,6 @@ public class BinarySearchTree {
         preOrder(root.right);
     }
 
-
     /**
      * Traversal of BST by post-order approach.
      * Left => Right => Root
@@ -150,7 +210,6 @@ public class BinarySearchTree {
         postOrder(root.right);
         System.out.println(root.data);
     }
-
 
     // LEVEL ORDER TRAVERSAL.
     //=====================================================
@@ -202,11 +261,6 @@ public class BinarySearchTree {
         return root.data;
     }
 
-
-    public int findMinRec() {
-        return findMinUsingRecursion(root);
-    }
-
     private int findMinUsingRecursion(BSTNode root) {
         if (root == null) {
             System.out.println("Erorr: Tree is empty!");
@@ -217,11 +271,6 @@ public class BinarySearchTree {
 
         //Search in left subtree.
         return findMinUsingRecursion(root.left);
-    }
-
-
-    public int findHeightBST() {
-        return findHeight(root);
     }
 
     private int findHeight(BSTNode root) {
@@ -235,7 +284,6 @@ public class BinarySearchTree {
             return a;
         return b;
     }
-
 
     // Check If given a Binary tree is BST?
     //==========================================================
