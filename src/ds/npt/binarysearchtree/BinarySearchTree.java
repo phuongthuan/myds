@@ -25,6 +25,13 @@ public class BinarySearchTree {
     }
 
     /**
+     * Delete node.
+     */
+    public void delete(int data) {
+        root = deleteNode(root, data);
+    }
+
+    /**
      * Check is giving Binary Tree is BST.
      */
     public boolean checkIsBST() {
@@ -46,6 +53,46 @@ public class BinarySearchTree {
             root.right = insertRecursive(root.right, data);
         }
 
+        return root;
+    }
+
+
+    /**
+     * Delete a node in BST.
+     */
+    private BSTNode deleteNode(BSTNode root, int data) {
+        if (root == null) return root;
+        else if (data < root.data) deleteNode(root.left, data);
+        else if (data > root.data) deleteNode(root.right, data);
+        else {
+            //Case 1: Node leaf (no child)
+            if (root.left == null && root.right == null) { //Node leaf
+                root = null;
+            }
+            //Case 2: One child
+            else if (root.left == null) {
+                BSTNode temp = root;
+                root = root.right;
+                temp = null;
+            } else if (root.right == null) {
+                BSTNode temp = root;
+                root = root.left;
+                temp = null;
+            }
+            //Case 3: Two child.
+            else {
+                BSTNode minRight = findMin(root.right);
+                root.data = minRight.data;
+                root.right = deleteNode(root.right, minRight.data);
+            }
+        }
+        return root;
+    }
+
+    private BSTNode findMin(BSTNode root) {
+        while (root.left != null) {
+            root = root.left;
+        }
         return root;
     }
 
